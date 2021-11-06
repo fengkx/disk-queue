@@ -1,0 +1,48 @@
+{
+  "name": "disk-fastq",
+  "version": "0.0.1",
+  "description": "fastq wrapper persisted queue on disk to save some memory",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "pnpm run build --  --watch",
+    "build": "tsup src/index.ts --target es2020 --format cjs,esm --dts --splitting",
+    "clean": "rimraf dist",
+    "prepublishOnly": "pnpm run clean && pnpm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fengkx/disk-queue.git"
+  },
+  "keywords": [
+    "queue",
+    "disk",
+    "fastq",
+    "promise"
+  ],
+  "author": "fengkx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fengkx/disk-queue/issues"
+  },
+  "homepage": "https://github.com/fengkx/disk-queue#readme",
+  "dependencies": {
+    "disk-queue": "workspace:*"
+  },
+  "devDependencies": {
+    "fastq": "^1.13.0"
+  },
+  "peerDependencies": {
+    "fastq": "^1.13.0"
+  }
+}

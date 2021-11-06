@@ -1,2 +1,8 @@
 # disk-queue
-A queue persist on filesytem to save memory
+
+> Persist queue on filesytem to save memory
+
+## Packages
+
+- [disk-queue](https://npmjs.com/package/disk-queue)
+- [disk-fastq](https://npmjs.com/package/disk-fastq)

@@ -1,0 +1,45 @@
+{
+  "name": "disk-queue",
+  "version": "0.0.1",
+  "description": " A queue persist on filesytem to save memory ",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "pnpm run build --  --watch",
+    "build": "tsup src/index.ts --target es2020 --format cjs,esm --dts --splitting",
+    "clean": "rimraf dist",
+    "prepublishOnly": "pnpm run clean && pnpm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fengkx/disk-queue.git"
+  },
+  "keywords": [
+    "queue",
+    "disk",
+    "file"
+  ],
+  "author": "fengkx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fengkx/disk-queue/issues"
+  },
+  "homepage": "https://github.com/fengkx/disk-queue#readme",
+  "devDependencies": {
+    "@types/n-readlines": "^1.0.2",
+    "@types/node": "^16.11.6"
+  },
+  "dependencies": {
+    "n-readlines": "^1.0.1"
+  }
+}

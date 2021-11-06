@@ -1,0 +1,6 @@
+node_modules
+coverage
+.vscode
+.pnpm-debug.log
+packages/*/dist
+tests/fixtures/queue*.txt

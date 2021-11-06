@@ -1,0 +1,55 @@
+{
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "prepare": "husky install",
+    "preinstall": "npx only-allow pnpm",
+    "dev": "pnpm -r --filter ./packages --parallel run dev",
+    "build": "pnpm -r --filter ./packages run build",
+    "clean": "pnpm -r --filter ./packages --parallel run clean",
+    "lint": "eslint .",
+    "test": "jest",
+    "format": "prettier"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fengkx/disk-queue.git",
+    "directory": "packages/disk-queue"
+  },
+  "author": "fengkx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fengkx/disk-queue/issues"
+  },
+  "homepage": "https://github.com/fengkx/disk-queue#readme",
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "@types/mock-fs": "^4.13.1",
+    "@types/node": "^16.11.6",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "esbuild-jest": "^0.5.0",
+    "eslint": "^8.2.0",
+    "fastq": "^1.13.0",
+    "husky": "^7.0.4",
+    "jest": "^27.3.1",
+    "lint-staged": "^11.2.6",
+    "mock-fs": "^5.1.1",
+    "nanoid": "^3.1.30",
+    "prettier": "2.4.1",
+    "rimraf": "^3.0.2",
+    "tsup": "^5.6.0",
+    "typescript": "^4.4.4"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint"
+    ],
+    "**/*": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
+  "peerDependencies": {
+    "fastq": "^1.13.0"
+  }
+}
