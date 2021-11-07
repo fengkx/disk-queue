@@ -13,7 +13,6 @@ describe("Disk Fastq", () => {
     const fn = jest.fn();
     const doNothing: fastq.worker<any> = (data, cb) => {
       fn();
-      // console.log(queue.length, queue.fastq.length(), queue.queue.remainCount);
       setTimeout(() => {
         cb(undefined, data);
       }, 200);

@@ -9,6 +9,7 @@ export class DiskFastq<C, R = any> extends EventEmitter {
   diskQueueOptions: Options;
   isSaturated = false;
   private closed = false;
+  private numInMemory = 0;
 
   constructor(
     worker: fastQueue.worker<C, R>,
@@ -54,11 +55,12 @@ export class DiskFastq<C, R = any> extends EventEmitter {
       }
     }
     this.isSaturated = false;
-    let remainCount = this.concurrency;
-    let data;
-    while (remainCount > 0 && (data = this.queue.shift())) {
-      this.fastq.push(data);
-      remainCount--;
+    while (this.numInMemory < this.concurrency && this.queue.remainCount > 0) {
+      const data = this.queue.shift();
+      this.fastq.push(data, () => {
+        this.numInMemory--;
+      });
+      this.numInMemory++;
     }
   }
 
@@ -66,10 +68,15 @@ export class DiskFastq<C, R = any> extends EventEmitter {
     if (this.closed) {
       return;
     }
-    if (this.isSaturated || !this.fastq.idle()) {
-      this.queue.push(arg);
+    const doneWithCount: fastQueue.done = (err, result) => {
+      this.numInMemory--;
+      done?.(err, result);
+    };
+    if (this.numInMemory < this.concurrency) {
+      this.fastq.push(arg as any, doneWithCount);
+      this.numInMemory++;
     } else {
-      this.fastq.push(arg as any, done);
+      this.queue.push(arg);
     }
   }
 
