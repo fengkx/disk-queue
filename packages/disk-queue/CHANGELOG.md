@@ -1,5 +1,11 @@
 # disk-queue
 
+## 0.1.2
+
+### Patch Changes
+
+- remove n-readlines dependency
+
 ## 0.1.1
 
 ### Patch Changes

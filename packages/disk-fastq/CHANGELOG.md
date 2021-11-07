@@ -1,5 +1,13 @@
 # disk-fastq
 
+## 0.1.3
+
+### Patch Changes
+
+- item should always push to fastq
+- Updated dependencies [undefined]
+  - disk-queue@0.1.2
+
 ## 0.1.2
 
 ### Patch Changes

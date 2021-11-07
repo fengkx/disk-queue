@@ -52,10 +52,8 @@ importers:
 
   packages/disk-queue:
     specifiers:
-      "@types/n-readlines": ^1.0.2
       "@types/node": ^16.11.6
     devDependencies:
-      "@types/n-readlines": 1.0.2
       "@types/node": 16.11.6
 
 packages:
@@ -1281,15 +1279,6 @@ packages:
     resolution:
       {
         integrity: sha512-m6nFAJ3lBSnqbvDZioawRvpLXSaPyn52Srf7OfzjubYbYX8MTUdIgDxQl0wEapm4m/pNYSd9TXocpQ0TvZFlYA==,
-      }
-    dependencies:
-      "@types/node": 16.11.6
-    dev: true
-
-  /@types/n-readlines/1.0.2:
-    resolution:
-      {
-        integrity: sha512-jEpAbqwRa7bwMU44zSWE0ritLzeaHpEqPMBDCDRHp0Xle4V8xrE2jvqlVewm3KOFFjfYGaDrjpEk2j5Edr1Prw==,
       }
     dependencies:
       "@types/node": 16.11.6
