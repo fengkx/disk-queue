@@ -1,5 +1,11 @@
 # disk-fastq
 
+## 0.1.2
+
+### Patch Changes
+
+- Add length and reset API
+
 ## 0.1.1
 
 ### Patch Changes
