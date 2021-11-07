@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "test": "jest",
     "format": "prettier",
-    "version:prepare": "changeset"
+    "version:prepare": "changeset",
+    "version": "changeset version"
   },
   "repository": {
     "type": "git",
