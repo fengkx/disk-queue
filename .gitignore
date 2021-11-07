@@ -4,3 +4,4 @@ coverage
 .pnpm-debug.log
 packages/*/dist
 tests/fixtures/queue*.txt
+.changeset/*.md
