@@ -13,13 +13,14 @@ describe("Disk Fastq", () => {
     const fn = jest.fn();
     const doNothing: fastq.worker<any> = (data, cb) => {
       fn();
+      // console.log(queue.length, queue.fastq.length(), queue.queue.remainCount);
       setTimeout(() => {
         cb(undefined, data);
-      }, 100);
+      }, 200);
     };
-    const queue = new DiskFastq(doNothing, 4, { filePath: genFilePath() });
-    const cnt = 100;
-    for (let i = 1; i <= 100; i++) {
+    const queue = new DiskFastq(doNothing, 3, { filePath: genFilePath() });
+    const cnt = 50;
+    for (let i = 1; i <= cnt; i++) {
       queue.push({ data: i });
     }
     const onDrain = jest.fn();

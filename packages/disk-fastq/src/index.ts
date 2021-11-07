@@ -51,7 +51,6 @@ export class DiskFastq<C, R = any> extends EventEmitter {
       if (this.queue.remainCount === 0) {
         this.queue.close();
         this.emit("drain");
-        return;
       }
     }
     this.isSaturated = false;
@@ -67,18 +66,10 @@ export class DiskFastq<C, R = any> extends EventEmitter {
     if (this.closed) {
       return;
     }
-    if (this.isSaturated) {
+    if (this.isSaturated || !this.fastq.idle()) {
       this.queue.push(arg);
     } else {
-      const doneAndAdd: fastQueue.done = (err, result) => {
-        if (this.queue.remainCount > 0) {
-          this.fastq.push(this.queue.shift());
-          if (done) {
-            done(err, result);
-          }
-        }
-      };
-      this.fastq.push(arg as any, doneAndAdd);
+      this.fastq.push(arg as any, done);
     }
   }
 
