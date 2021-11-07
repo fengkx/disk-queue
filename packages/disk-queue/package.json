@@ -38,8 +38,5 @@
   "devDependencies": {
     "@types/n-readlines": "^1.0.2",
     "@types/node": "^16.11.6"
-  },
-  "dependencies": {
-    "n-readlines": "^1.0.1"
   }
 }

@@ -54,9 +54,6 @@ importers:
     specifiers:
       "@types/n-readlines": ^1.0.2
       "@types/node": ^16.11.6
-      n-readlines: ^1.0.1
-    dependencies:
-      n-readlines: 1.0.1
     devDependencies:
       "@types/n-readlines": 1.0.2
       "@types/node": 16.11.6
@@ -5453,14 +5450,6 @@ packages:
       object-assign: 4.1.1
       thenify-all: 1.6.0
     dev: true
-
-  /n-readlines/1.0.1:
-    resolution:
-      {
-        integrity: sha512-z4SyAIVgMy7CkgsoNw7YVz40v0g4+WWvvqy8+ZdHrCtgevcEO758WQyrYcw3XPxcLxF+//RszTz/rO48nzD0wQ==,
-      }
-    engines: { node: ">=6.x.x" }
-    dev: false
 
   /nanoid/3.1.30:
     resolution:
