@@ -1,5 +1,12 @@
 # disk-fastq
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies
+  - disk-queue@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes
@@ -8,5 +15,5 @@
 
 ### Patch Changes
 
-- Updated dependencies [undefined]
+- Updated dependencies
   - disk-queue@0.1.0
