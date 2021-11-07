@@ -61,6 +61,10 @@ dequeue a item work like `Array#shift`
 
 discard jobs and reset everything
 
+### close()
+
+close internal file descriptor, push after close will throw fd error
+
 ### queue.remainCount
 
 The number of remaining item in queue
