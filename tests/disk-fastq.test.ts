@@ -26,6 +26,7 @@ describe("Disk Fastq", () => {
     queue.close();
 
     queue.on("drain", () => {
+      expect(queue.length).toBe(0);
       expect(fn).toHaveBeenCalledTimes(cnt);
       onDrain();
       expect(onDrain).toHaveBeenCalled();

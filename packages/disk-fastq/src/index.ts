@@ -85,4 +85,14 @@ export class DiskFastq<C, R = any> extends EventEmitter {
   public close() {
     this.closed = true;
   }
+
+  public reset() {
+    this.fastq.kill();
+    this.fastq.drain = this.onFastqDrain.bind(this);
+    this.queue.reset();
+  }
+
+  public get length() {
+    return this.fastq.length() + this.queue.remainCount;
+  }
 }

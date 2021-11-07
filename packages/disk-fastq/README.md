@@ -54,9 +54,17 @@ Add a task at the end of the queue. done(err, result) will be called when the ta
 
 Mark queue as closed, no longer able to add new task.
 
+### reset()
+
+Reset queue to empty length, discard all jobs
+
+### length
+
+Get the length of task in queue
+
 ### queue#drain
 
-event triggered when queue is close and become empty
+Event triggered when queue is close and become empty
 
 ```js
 queue.close();
