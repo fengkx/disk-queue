@@ -47,6 +47,16 @@ export class DiskFastq<C, R = any> extends EventEmitter {
     };
   }
 
+  private addDiskTaskToMemory() {
+    while (this.numInMemory < this.concurrency && this.queue.remainCount > 0) {
+      const data = this.queue.shift();
+      this.fastq.push(data, () => {
+        this.numInMemory--;
+      });
+      this.numInMemory++;
+    }
+  }
+
   private onFastqDrain() {
     if (this.closed) {
       if (this.queue.remainCount === 0) {
@@ -55,13 +65,7 @@ export class DiskFastq<C, R = any> extends EventEmitter {
       }
     }
     this.isSaturated = false;
-    while (this.numInMemory < this.concurrency && this.queue.remainCount > 0) {
-      const data = this.queue.shift();
-      this.fastq.push(data, () => {
-        this.numInMemory--;
-      });
-      this.numInMemory++;
-    }
+    this.addDiskTaskToMemory();
   }
 
   public push<T = any>(arg: T, done?: fastQueue.done): void {
@@ -72,10 +76,11 @@ export class DiskFastq<C, R = any> extends EventEmitter {
       this.numInMemory--;
       done?.(err, result);
     };
-    if (this.numInMemory < this.concurrency) {
+    if (this.numInMemory < this.concurrency && this.queue.remainCount <= 0) {
       this.fastq.push(arg as any, doneWithCount);
       this.numInMemory++;
     } else {
+      this.addDiskTaskToMemory();
       this.queue.push(arg);
     }
   }
