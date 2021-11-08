@@ -11,13 +11,14 @@ describe("Disk Fastq", () => {
 
   test("can push data and run worker", (done) => {
     const fn = jest.fn();
+    const cb = jest.fn();
     const doNothing: fastq.worker<any> = (data, cb) => {
       fn();
       setTimeout(() => {
         cb(undefined, data);
       }, 200);
     };
-    const queue = new DiskFastq(doNothing, 3, { filePath: genFilePath() });
+    const queue = new DiskFastq(doNothing, 3, { filePath: genFilePath() }, cb);
     const cnt = 50;
     for (let i = 1; i <= cnt; i++) {
       queue.push({ data: i });
@@ -28,6 +29,7 @@ describe("Disk Fastq", () => {
     queue.on("drain", () => {
       expect(queue.length).toBe(0);
       expect(fn).toHaveBeenCalledTimes(cnt);
+      expect(cb).toHaveBeenCalledTimes(cnt);
       onDrain();
       expect(onDrain).toHaveBeenCalled();
       done();

@@ -23,9 +23,20 @@ const worker = (_data, cb) => {
   }, 1000);
 };
 
-const queue = new DiskFastq(worker, 4, {
-  filePath: genFilePath(),
-});
+const queue = new DiskFastq(
+  worker,
+  4,
+  {
+    filePath: genFilePath(),
+  },
+  (err, result) => {
+    if (err) {
+      console.err(err);
+    } else {
+      console.log(result);
+    }
+  }
+);
 for (let i = 1; i <= TASK_SIZE; i++) {
   queue.push({ data: i });
 }
@@ -40,15 +51,23 @@ class of disk queue recive a options object
 Type:
 
 ```
-constructor(worker: fastQueue.worker<C, R>, concurrency: number, diskQueueOptions: Options);
-constructor(context: C, worker: fastQueue.worker<C, R>, concurrency: number, diskQueueOptions: Options);
+constructor(worker: fastQueue.worker<C, R>, concurrency: number, diskQueueOptions: Options, callback?: fastQueue.done);
+    constructor(context: C, worker: fastQueue.worker<C, R>, concurrency: number, diskQueueOptions: Options, callback?: fastQueue.done);
 ```
 
 work like [fastq](https://npmjs.com/package/fastq) callback API
 
-### push(data, done)
+#### diskQueueOptions
 
-Add a task at the end of the queue. done(err, result) will be called when the task was processed.
+See [disk-queue](https://npmjs.com/package/fastq)
+
+#### cb
+
+callback called when task is done. **Note that there is no callback paramter in push method**
+
+### push(data)
+
+Add a task at the end of the queue.
 
 ### close()
 

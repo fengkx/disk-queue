@@ -8,31 +8,41 @@ export class DiskFastq<C, R = any> extends EventEmitter {
   concurrency: number;
   diskQueueOptions: Options;
   isSaturated = false;
+  private jobCallback: fastQueue.done;
   private closed = false;
   private numInMemory = 0;
 
   constructor(
     worker: fastQueue.worker<C, R>,
     concurrency: number,
-    diskQueueOptions: Options
+    diskQueueOptions: Options,
+    callback?: fastQueue.done
   );
   constructor(
     context: C,
     worker: fastQueue.worker<C, R>,
     concurrency: number,
-    diskQueueOptions: Options
+    diskQueueOptions: Options,
+    callback?: fastQueue.done
   );
   constructor(...args: any[]) {
     super();
-    let context: any;
+    let context: any = null;
     let worker: fastQueue.worker<C, R>;
     let concurrency: number;
     let diskQueueOptions: Options;
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    let callback: fastQueue.done = () => {};
     if (args.length === 3) {
-      context = null;
       [worker, concurrency, diskQueueOptions] = args;
+    } else if (args.length === 4) {
+      if (typeof args[args.length - 1] !== "function") {
+        [context, worker, concurrency, diskQueueOptions] = args;
+      } else {
+        [worker, concurrency, diskQueueOptions, callback] = args;
+      }
     } else {
-      [context, worker, concurrency, diskQueueOptions] = args;
+      [context, worker, concurrency, diskQueueOptions, callback] = args;
     }
     const fastq = fastQueue<C, any>(context, worker, concurrency);
     const queue = new DiskQueue(diskQueueOptions);
@@ -40,6 +50,11 @@ export class DiskFastq<C, R = any> extends EventEmitter {
     this.fastq = fastq;
     this.concurrency = concurrency;
     this.diskQueueOptions = diskQueueOptions;
+    this.jobCallback = (err, result) => {
+      this.numInMemory--;
+      callback(err, result);
+    };
+    this.jobCallback.bind(this);
 
     this.fastq.drain = this.onFastqDrain.bind(this);
     this.fastq.saturated = () => {
@@ -50,9 +65,7 @@ export class DiskFastq<C, R = any> extends EventEmitter {
   private addDiskTaskToMemory() {
     while (this.numInMemory < this.concurrency && this.queue.remainCount > 0) {
       const data = this.queue.shift();
-      this.fastq.push(data, () => {
-        this.numInMemory--;
-      });
+      this.fastq.push(data, this.jobCallback);
       this.numInMemory++;
     }
   }
@@ -68,16 +81,13 @@ export class DiskFastq<C, R = any> extends EventEmitter {
     this.addDiskTaskToMemory();
   }
 
-  public push<T = any>(arg: T, done?: fastQueue.done): void {
+  public push<T = any>(arg: T): void {
     if (this.closed) {
       return;
     }
-    const doneWithCount: fastQueue.done = (err, result) => {
-      this.numInMemory--;
-      done?.(err, result);
-    };
+
     if (this.numInMemory < this.concurrency && this.queue.remainCount <= 0) {
-      this.fastq.push(arg as any, doneWithCount);
+      this.fastq.push(arg as any, this.jobCallback);
       this.numInMemory++;
     } else {
       this.addDiskTaskToMemory();
