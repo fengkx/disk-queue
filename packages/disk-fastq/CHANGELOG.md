@@ -1,5 +1,11 @@
 # disk-fastq
 
+## 0.1.7
+
+### Patch Changes
+
+- Move done callback from push method to constructor
+
 ## 0.1.6
 
 ### Patch Changes
