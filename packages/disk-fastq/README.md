@@ -63,6 +63,7 @@ See [disk-queue](https://npmjs.com/package/fastq)
 
 #### cb
 
+Type: `(err: Error | null, result: R | undefined, task: T) => void`
 callback called when task is done. **Note that there is no callback paramter in push method**
 
 ### push(data)

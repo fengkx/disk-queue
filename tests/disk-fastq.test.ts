@@ -16,10 +16,18 @@ describe("Disk Fastq", () => {
       fn();
       setTimeout(() => {
         cb(undefined, data);
-      }, 200);
+      }, 300);
     };
-    const queue = new DiskFastq(doNothing, 3, { filePath: genFilePath() }, cb);
-    const cnt = 50;
+    const queue = new DiskFastq(
+      doNothing,
+      3,
+      { filePath: genFilePath() },
+      (_a, _b, arg) => {
+        expect(arg).toBeDefined();
+        cb();
+      }
+    );
+    const cnt = 30;
     for (let i = 1; i <= cnt; i++) {
       queue.push({ data: i });
     }

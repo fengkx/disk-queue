@@ -9,7 +9,7 @@ export interface Options {
   serializer?: Serializer;
   deserializer?: DeSerializer;
 }
-export class DiskQueue extends EventEmitter {
+export class DiskQueue<T = any> extends EventEmitter {
   protected holding = false;
   protected fd: number;
   protected liner: lineByLine;
@@ -51,11 +51,11 @@ export class DiskQueue extends EventEmitter {
     return maybeLine === endSymobl ? undefined : maybeLine.toString("utf-8");
   }
 
-  public push(...items: unknown[]) {
+  public push(...items: T[]) {
     this.appendBatchLinesSync(items.map((item) => this.serialize(item)));
   }
 
-  public shift(): any {
+  public shift(): T | undefined {
     const line = this.nextLine();
     if (line === undefined) {
       return undefined;
@@ -66,7 +66,7 @@ export class DiskQueue extends EventEmitter {
       this.clearFile();
     }
     const result = this.deserialize(line);
-    return result;
+    return result as T;
   }
 
   private clearFile() {
