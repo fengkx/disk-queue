@@ -1,5 +1,11 @@
 # disk-queue
 
+## 0.1.3
+
+### Patch Changes
+
+- Better types
+
 ## 0.1.2
 
 ### Patch Changes

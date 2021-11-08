@@ -1,5 +1,13 @@
 # disk-fastq
 
+## 0.1.8
+
+### Patch Changes
+
+- callback can access task object
+- Updated dependencies [undefined]
+  - disk-queue@0.1.3
+
 ## 0.1.7
 
 ### Patch Changes
