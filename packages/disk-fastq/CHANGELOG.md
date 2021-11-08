@@ -1,5 +1,11 @@
 # disk-fastq
 
+## 0.1.6
+
+### Patch Changes
+
+- Fix push logical
+
 ## 0.1.4
 
 ### Patch Changes
