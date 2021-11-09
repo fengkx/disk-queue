@@ -7,6 +7,18 @@ describe("Disk Fastq", () => {
     const queue = new DiskFastq(noop, 4, { filePath: genFilePath() });
     expect(queue).toBeDefined();
     queue.close();
+    const queue2 = new DiskFastq(
+      {},
+      noop,
+      4,
+      { filePath: genFilePath() },
+      noop
+    );
+    expect(queue2).toBeDefined();
+    queue2.close();
+    const queue3 = new DiskFastq({}, noop, 4, { filePath: genFilePath() });
+    expect(queue3).toBeDefined();
+    queue3.close();
   });
 
   test("can push data and run worker", (done) => {

@@ -2,6 +2,11 @@ import fastQueue from "fastq";
 import { DiskQueue, Options } from "disk-queue";
 import { EventEmitter } from "stream";
 
+type TCallback<T, R> = (
+  err: Error | null,
+  result: R | undefined,
+  task: T
+) => void;
 export class DiskFastq<C, T = any, R = any> extends EventEmitter {
   queue: DiskQueue;
   fastq: fastQueue.queue<T, R>;
@@ -20,15 +25,16 @@ export class DiskFastq<C, T = any, R = any> extends EventEmitter {
     worker: fastQueue.worker<C, R>,
     concurrency: number,
     diskQueueOptions: Options,
-    callback?: (err: Error | null, result: R | undefined, task: T) => void
+    callback?: TCallback<T, R>
   );
   constructor(
     context: C,
     worker: fastQueue.worker<C, R>,
     concurrency: number,
     diskQueueOptions: Options,
-    callback?: (err: Error | null, result: R | undefined, task: T) => void
+    callback?: TCallback<T, R>
   );
+
   constructor(...args: any[]) {
     super();
     let context: any = null;
@@ -71,6 +77,7 @@ export class DiskFastq<C, T = any, R = any> extends EventEmitter {
       const data = this.queue.shift();
       this.fastq.push(data, (err, result) => {
         this.jobCallback(err, result, data);
+        this.addDiskTaskToMemory();
       });
       this.numInMemory++;
     }
@@ -95,6 +102,7 @@ export class DiskFastq<C, T = any, R = any> extends EventEmitter {
     if (this.numInMemory < this.concurrency && this.queue.remainCount <= 0) {
       this.fastq.push(arg, (err, result) => {
         this.jobCallback(err, result, arg);
+        this.addDiskTaskToMemory();
       });
       this.numInMemory++;
     } else {

@@ -68,14 +68,12 @@ describe("Disk Queue", () => {
         encoding: "utf-8",
       })
     );
-    let totalCount = 0;
     let remainCount = 0;
     for (let i = 0; i < data.length; i++) {
       const push = Math.random() > 0.4;
       if (push) {
         queue.push(data[i]);
         remainCount++;
-        totalCount++;
       } else {
         if (remainCount <= 0) {
           const r = queue.shift();
