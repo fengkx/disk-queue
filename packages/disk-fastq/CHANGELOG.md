@@ -1,5 +1,11 @@
 # disk-fastq
 
+## 0.1.9
+
+### Patch Changes
+
+- add task from disk to memory in done callback
+
 ## 0.1.8
 
 ### Patch Changes
